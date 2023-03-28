@@ -1,5 +1,5 @@
 import 'package:finner/screens/login_screen.dart';
-import 'package:finner/screens/test.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
