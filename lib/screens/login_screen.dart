@@ -1,7 +1,9 @@
-import 'package:finner/cons/button.dart';
-import 'package:finner/cons/card.dart';
+import 'package:finner/screens/password_screen.dart';
+import 'package:finner/widget/card.dart';
+import 'package:finner/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:finner/Utils/cons.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen>
-    with SingleTickerProviderStateMixin {
+  with SingleTickerProviderStateMixin {
   late AnimationController _iconAnimationController;
   late Animation<double> _iconAnimation;
 
@@ -24,12 +26,12 @@ class _LoginScreenState extends State<LoginScreen>
   void initState() {
     super.initState();
     _iconAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     _iconAnimation = CurvedAnimation(
       parent: _iconAnimationController,
       curve: Curves.bounceInOut,
     );
-    _iconAnimation.addListener(() => this.setState(() {}));
+    _iconAnimation.addListener(() => setState(() {}));
     _iconAnimationController.forward();
   }
 
@@ -38,186 +40,210 @@ class _LoginScreenState extends State<LoginScreen>
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(fit: StackFit.expand, children: <Widget>[
-        Image(
+        const Image(
           image: AssetImage("assets/nieve.gif"),
           fit: BoxFit.cover,
           color: Color.fromARGB(221, 255, 255, 255),
           colorBlendMode: BlendMode.darken,
         ),
         SafeArea(
-          child: Flexible(
             child: CardContainer(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SingleChildScrollView(
                       child: Form(
-                        key: _globalKey,
+                          key: _globalKey,
                           child: Theme(
-                    data: ThemeData(
-                        brightness: Brightness.dark,
-                        primarySwatch: Colors.teal,
-                        inputDecorationTheme: InputDecorationTheme(
-                            labelStyle:
-                                TextStyle(color: Colors.teal, fontSize: 15.0))),
-                    child: SafeArea(child: Container(
-                      padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 300 ,
-                                        //child: Image.network('https://assets3.lottiefiles.com/packages/lf20_edzccurz.json'),
-                                        child: Center(child:Lottie.asset('assets/animations/cartoon.json', repeat: true, fit: BoxFit.contain)),
-                                       
-                                        ),
-                                       TextFormField(
-                                        controller: emailuserController,
-                                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                                       keyboardType: TextInputType.emailAddress,
-                                       validator: (value) {
-                                                if (value!.isEmpty) {
-                                                  return ("Por favor escriba un correo electronico valido");
-                                                }
-                                                // reg expression for email validation
-                                                if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                                    .hasMatch(value)) {
-                                                  return ("Por favor escriba un correo electronico valido");
-                                                }
-                                                return null;
-                                              },
-                                              onSaved: (value) {
-                                                emailuserController.text = value!;
-                                              },
-                                              
-                                        decoration:  InputDecoration(
-                                           prefixIcon: const Icon(Icons.email, color: Colors.red,),
-                                            enabledBorder:OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                width: 3,color: Colors.teal
-                                              ),
-                                            borderRadius: BorderRadius.circular(50)
-                                          ),
-                                            hintText: "Correo@electronico.prueba " , 
-                                          fillColor: Color.fromARGB(255, 137, 0, 0),
-                                           border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50)
-                                      
-                                        ),
-                                          labelText: "Ingrese su correo"),
-                                          textAlign: TextAlign.center,
-                                      ),
-                                      SizedBox(height: 5,) , 
-            
-                                      TextFormField(
-                                        controller: passworduserController,
-                                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                                        obscureText: _passworduserControllerVisible,
-                                        obscuringCharacter: "*",
-                                        keyboardType: TextInputType.visiblePassword,
-                                           validator: (value) {
-                                          RegExp regex = new RegExp(r'^.{8,}$');
-                                          if (value!.isEmpty) {
-                                            return ("Contraseña es requerida para inicializar sesion");
-                                          }
-                                          if (!regex.hasMatch(value)) {
-                                            return ("Escriba una contraseña con almenos 8 caracteres");
-                                          }
-                                        },
-                                        
-                                        onSaved: (value) {
-                                          passworduserController.text = value!;
-                                          
-                                        },
-                                          decoration:  InputDecoration(
-                                            prefixIcon: const Icon(Icons.security, color: Colors.red,),
-                                             enabledBorder:OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                width: 3,color: Colors.teal
-                                              ),
-                                            borderRadius: BorderRadius.circular(50)
-                                          ),
-                                            suffixIcon: IconButton(
-                                              
-                                              icon: Icon(
-                                                _passworduserControllerVisible
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                              color: Theme.of(context).primaryColorDark,
-                                              ),
-                                              onPressed: (){
-                                                setState(() {
-                                                  _passworduserControllerVisible = ! _passworduserControllerVisible;
-                                                });
-                                              },
-                                              
-                                            ),
-                                            
-                                            
-                                            //hintText: "******" , fillColor: Colors.redAccent,
-                                           border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50)
-                                        
-                                        ),
-                                          labelText: "Ingrese su contraseña"
-                                          ),
-                                          
-                                          textAlign: TextAlign.center,
-                                          
-                                      ),
-                                      TextButton(
-                                        onPressed: (){
-                  
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Text('Se olvido la contraseña?'
-                                        ),
-                                      )
+                            data: ThemeData(
+                                brightness: Brightness.dark,
+                                primarySwatch: Colors.teal,
+                                inputDecorationTheme: const InputDecorationTheme(
+                                    labelStyle: TextStyle(
+                                        color: Colors.teal, fontSize: 15.0))),
+                            child: SafeArea(
+                                child: Container(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 250,
+                                      child: Center(
+                                          child: Lottie.asset(
+                                              'assets/animations/cartoon.json',
+                                              repeat: true,
+                                              fit: BoxFit.contain)),
                                     ),
-                                     
-                                      
-                                 ButtonGr(),
-                  
-                                 SizedBox(height: 20,),
+                                    TextFormField(
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      controller: emailuserController,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return ("Por favor escriba un correo electronico valido");
+                                        }
+                                        // reg expression for email validation
+                                        if (!RegExp(
+                                                "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                            .hasMatch(value)) {
+                                          return ("Por favor escriba un correo electronico valido");
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        emailuserController.text = value!;
+                                      },
+                                      decoration: InputDecoration(
+                                          prefixIcon: const Icon(
+                                            Icons.email,
+                                            color: Colors.red,
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(
+                                                  width: 3, color: Colors.teal),
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          hintText:
+                                              "Correo@electronico.prueba ",
+                                          fillColor:
+                                              const Color.fromARGB(255, 137, 0, 0),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          labelText: "Ingrese su correo"),
+                                      textAlign: TextAlign.center,
+                                    ),
+
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+
+                                    TextFormField(
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      controller: passworduserController,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      obscureText:
+                                          _passworduserControllerVisible,
+                                      obscuringCharacter: "*",
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      validator: (value) {
+                                        RegExp regex =  RegExp(r'^.{8,}$');
+                                        if (value!.isEmpty) {
+                                          return ("Contraseña es requerida para inicializar sesion");
+                                        }
+                                        if (!regex.hasMatch(value)) {
+                                          return ("Escriba una contraseña con almenos 8 caracteres");
+                                        }
+                                      },
+                                      onSaved: (value) {
+                                        passworduserController.text = value!;
+                                      },
+                                      decoration: InputDecoration(
+                                          prefixIcon: const Icon(
+                                            Icons.security,
+                                            color: Colors.red,
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(
+                                                  width: 3, color: Colors.teal),
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                              _passworduserControllerVisible
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off,
+                                              color: Theme.of(context)
+                                                  .primaryColorDark,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _passworduserControllerVisible =
+                                                    !_passworduserControllerVisible;
+                                              });
+                                            },
+                                          ),
+                                          //hintText: "******" , fillColor: Colors.redAccent,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          labelText: "Ingrese su contraseña"),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          pushNavigate(
+                                              context, const ForgotPasswordScreen());
+                                        },
+                                        child: const Align(
+                                          alignment: Alignment.bottomRight,
+                                          child:
+                                              Text('Se olvido la contraseña?'),
+                                        )),
+
+                                   getbutton(context, 'Inicar sesion'),
+
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+
                                     ///
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Text(' ¿Todavia no tienes una cuenta ?'),
+                                        const Text(
+                                            ' ¿Todavia no tienes una cuenta ?'),
                                         GestureDetector(
-                                          onTap: (){
-                                      //       Navigator.push(
-                                      // context,
-                                      // MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         RegistrationScreen()));
+                                          onTap: () {
+                                            pushAndRemoveNavigate(
+                                                context, const SignUpScreen());
                                           },
-                                          child: Text(
-                                            "  Registro" , 
+                                          child: const Text(
+                                            "  Registro",
                                             style: TextStyle(
-                                              color: Colors.teal,
-                                              fontWeight: FontWeight.bold,
-                                            fontSize: 15
-                                            ),
+                                                color: Colors.teal,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
                                           ),
                                         )
                                       ],
                                     ),
-                                    Divider(color: Colors.transparent,),
+                                    const Divider(
+                                      color: Colors.transparent,
+                                    ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        TextButton.icon(onPressed: (){}, icon: Icon(Icons.facebook), label: Text('Facebook')),
-                                        TextButton.icon(onPressed: (){}, icon: Icon(Icons.email_sharp), label: Text('Gmail')),
-                                        TextButton.icon(onPressed: (){}, icon: Icon(Icons.phone_android), label: Text('Telefono'))
+                                        TextButton.icon(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.facebook),
+                                            label: const Text('Facebook')),
+                                        TextButton.icon(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.email_sharp),
+                                            label: const Text('Gmail')),
+                                        TextButton.icon(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.phone_android),
+                                            label: const Text('Telefono'))
                                       ],
                                     )
-                                      
-                                ]
-                              ),
+                                  ]
+                                ),
                             )
                           ),
                         )
@@ -225,9 +251,8 @@ class _LoginScreenState extends State<LoginScreen>
                     )
                   ],
                 ),
+              ),
             ),
-          ),
-        )
         ]
       ),
     );

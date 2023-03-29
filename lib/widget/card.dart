@@ -9,7 +9,8 @@ class CardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 26 , vertical: 1),
+          padding: EdgeInsets.only(left:15 , right: 15, top:26 , bottom:26 ),
+        //padding:  EdgeInsets.symmetric(horizontal: 26 , vertical: 1),
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.all(10),
